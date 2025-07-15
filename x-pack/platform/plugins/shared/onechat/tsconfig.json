@@ -47,5 +47,9 @@
     "@kbn/core-application-browser",
     "@kbn/core-ui-settings-server",
     "@kbn/utility-types",
+    "@kbn/esql",
+    "@kbn/field-types",
+    "@kbn/monaco",
+    "@kbn/esql-validation-autocomplete",
   ]
 }
