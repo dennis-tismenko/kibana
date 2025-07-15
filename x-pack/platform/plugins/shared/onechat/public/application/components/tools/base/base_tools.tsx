@@ -24,7 +24,6 @@ const columns: Array<EuiBasicTableColumn<ToolDefinition>> = [
   {
     field: 'id',
     name: i18n.translate('xpack.onechat.tools.toolIdLabel', { defaultMessage: 'Tool' }),
-    valign: 'top',
     render: (id: string) => (
       <EuiText size="s">
         <strong>{id}</strong>
@@ -37,7 +36,6 @@ const columns: Array<EuiBasicTableColumn<ToolDefinition>> = [
       defaultMessage: 'Description',
     }),
     width: '60%',
-    valign: 'top',
     render: (description: string) => {
       return <EuiText size="s">{truncateAtNewline(description)}</EuiText>;
     },
@@ -47,7 +45,6 @@ const columns: Array<EuiBasicTableColumn<ToolDefinition>> = [
     name: i18n.translate('xpack.onechat.tools.tagsLabel', {
       defaultMessage: 'Tags',
     }),
-    width: '15%',
     valign: 'top',
     render: (tags: string[]) => <OnechatToolTags tags={tags} />,
   },

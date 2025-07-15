@@ -53,6 +53,18 @@ export const useOnechatCreateTool = () => {
   return { createTool: mutateAsync };
 };
 
+export const useOnechatDeleteTool = () => {
+  const queryClient = useQueryClient();
+  const { toolsService } = useOnechatServices();
+
+  const { mutateAsync, isLoading } = useMutation({
+    mutationFn: ({ toolId }: { toolId: string }) => toolsService.delete({ toolId }),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: queryKeys.tools.all }),
+  });
+
+  return { deleteTool: mutateAsync, isLoading };
+};
+
 export const useOnechatToolsTags = () => {
   const { tools, isLoading, error } = useOnechatTools();
 
