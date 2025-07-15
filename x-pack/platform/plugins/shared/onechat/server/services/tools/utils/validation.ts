@@ -5,9 +5,7 @@
  * 2.0.
  */
 
-import { createBadRequestError, isReservedToolId } from '@kbn/onechat-common';
-
-const idRegexp = /^[a-z0-9](?:[a-z0-9_-]*[a-z0-9])?$/;
+import { createBadRequestError, idRegexp, isReservedToolId } from '@kbn/onechat-common';
 
 /**
  * Check if an ID is valid for creation
