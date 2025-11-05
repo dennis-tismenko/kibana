@@ -4,3 +4,8 @@
  * 2.0; you may not use this file except in compliance with the Elastic License
  * 2.0.
  */
+import { z } from '@kbn/zod';
+
+// Connector schema
+export const NotionConfigSchema = z.object({ url: z.string() }).strict();
+export const NotionSecretsSchema = z.object({ email: z.string(), token: z.string() }).strict();
