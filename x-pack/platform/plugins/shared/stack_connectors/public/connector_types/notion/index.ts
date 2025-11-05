@@ -9,6 +9,7 @@ import type {
   ActionTypeModel,
   GenericValidationResult,
 } from '@kbn/triggers-actions-ui-plugin/public';
+import { CONNECTOR_ID, CONNECTOR_NAME } from '../../../common/notion/constants';
 import type { NotionConfig, NotionSecrets } from '../../../common/notion/types';
 import type { NotionActionParams } from './types';
 
@@ -23,8 +24,8 @@ export function getNotionConnectorType(): ActionTypeModel<
   NotionActionParams
 > {
   return {
-    id: '.notion',
-    actionTypeTitle: 'Notion',
+    id: CONNECTOR_ID,
+    actionTypeTitle: CONNECTOR_NAME,
     iconClass: lazy(() => import('./logo')),
     selectMessage: 'Extract information from Notion',
     validateParams: async (

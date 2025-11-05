@@ -6,8 +6,9 @@
  */
 
 import type { NotionSearchActionParams } from '../../../common/notion/types';
+import type { SUB_ACTION } from '../../../common/notion/constants';
 
 export interface NotionActionParams {
-  subAction: 'search';
+  subAction: SUB_ACTION.SEARCH;
   subActionParams: NotionSearchActionParams;
 }

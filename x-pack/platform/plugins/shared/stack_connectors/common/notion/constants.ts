@@ -4,3 +4,8 @@
  * 2.0; you may not use this file except in compliance with the Elastic License
  * 2.0.
  */
+export const CONNECTOR_ID = '.notion';
+export const CONNECTOR_NAME = 'Notion';
+export enum SUB_ACTION {
+  SEARCH = 'search',
+}
