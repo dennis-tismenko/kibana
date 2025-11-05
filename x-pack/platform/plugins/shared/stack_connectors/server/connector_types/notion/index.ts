@@ -5,16 +5,21 @@
  * 2.0.
  */
 import type { AxiosError } from 'axios';
-import { ServiceParams, SubActionConnector } from '@kbn/actions-plugin/server';
-import { NotionConfig, NotionConnectorType, NotionSecrets } from '@kbn/stack-connectors-plugin/common/notion/types';
-import { ConnectorUsageCollector } from '@kbn/actions-plugin/server/usage';
-import { NotionConfigSchema, NotionSecretsSchema } from '@kbn/stack-connectors-plugin/common/notion/schema';
-import { RenderParameterTemplates } from '@kbn/actions-plugin/server/types';
-import { ExecutorParams } from '@kbn/stack-connectors-plugin/common/xsoar/types';
+import type { ServiceParams } from '@kbn/actions-plugin/server';
+import { SubActionConnector } from '@kbn/actions-plugin/server';
+import type { ConnectorUsageCollector } from '@kbn/actions-plugin/server/usage';
+import type { RenderParameterTemplates } from '@kbn/actions-plugin/server/types';
 import { renderMustacheString } from '@kbn/actions-plugin/server/lib/mustache_renderer';
+import type {
+  NotionConfig,
+  NotionConnectorType,
+  NotionSecrets,
+} from '../../../common/notion/types';
+import { NotionConfigSchema, NotionSecretsSchema } from '../../../common/notion/schema';
+import type { ExecutorParams } from '../../../common/xsoar/types';
+import { FederatedConnectorFeatureId } from '@kbn/actions-plugin/common/connector_feature_config';
 
 export class NotionConnector extends SubActionConnector<NotionConfig, NotionSecrets> {
-
   constructor(params: ServiceParams<NotionConfig, NotionSecrets>) {
     super(params);
 
@@ -26,7 +31,7 @@ export class NotionConnector extends SubActionConnector<NotionConfig, NotionSecr
       name: 'search',
       method: 'searchPages',
       schema: {},
-    })
+    });
   }
 
   public async searchPages(params: unknown, connectorUsageCollector: ConnectorUsageCollector) {}
@@ -52,11 +57,11 @@ export const renderParameterTemplates: RenderParameterTemplates<ExecutorParams> 
 
 export function getConnectorType(): NotionConnectorType {
   return {
-    id: ".notion",
-    minimumLicenseRequired: "gold",
-    name: "Notion",
+    id: '.notion',
+    minimumLicenseRequired: 'gold',
+    name: 'Notion',
     getService: (params) => new NotionConnector(params),
-    supportedFeatureIds: [],
+    supportedFeatureIds: [FederatedConnectorFeatureId],
     schema: {
       config: NotionConfigSchema,
       secrets: NotionSecretsSchema,

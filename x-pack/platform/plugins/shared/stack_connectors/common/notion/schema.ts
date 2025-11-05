@@ -9,3 +9,7 @@ import { z } from '@kbn/zod';
 // Connector schema
 export const NotionConfigSchema = z.object({ url: z.string() }).strict();
 export const NotionSecretsSchema = z.object({ email: z.string(), token: z.string() }).strict();
+
+// Search action schema
+export const NotionSearchActionParamsSchema = z.object({});
+export const NotionSearchActionResponseSchema = z.object({});
