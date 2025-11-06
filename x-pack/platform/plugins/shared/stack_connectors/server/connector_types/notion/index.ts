@@ -79,6 +79,10 @@ export class NotionConnector extends SubActionConnector<NotionConfig, NotionSecr
         url: `https://api.notion.com/v1/data_sources/${dataSourceId}`,
         method: 'get',
         responseSchema: NotionGetDataSourceActionResponseSchema,
+        headers: {
+          'Notion-Version': '2025-09-03',
+          Authorization: `Bearer ${this.secrets.token}`,
+        },
       },
       connectorUsageCollector
     );
