@@ -12,10 +12,9 @@ import type {
 } from '@kbn/triggers-actions-ui-plugin/public';
 import { SimpleConnectorForm } from '@kbn/triggers-actions-ui-plugin/public';
 
-const configFormSchema: ConfigFieldSchema[] = [{ id: 'url', label: 'URL', isUrlField: true }];
+const configFormSchema: ConfigFieldSchema[] = [{ id: 'sourceId', label: 'Data Source ID' }];
 
 const secretsFormSchema: SecretsFieldSchema[] = [
-  { id: 'email', label: 'E-mail' },
   { id: 'token', label: 'Token', isPasswordField: true },
 ];
 
