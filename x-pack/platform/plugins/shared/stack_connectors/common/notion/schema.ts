@@ -13,3 +13,15 @@ export const NotionSecretsSchema = z.object({ email: z.string(), token: z.string
 // Search action schema
 export const NotionSearchActionParamsSchema = z.object({});
 export const NotionSearchActionResponseSchema = z.object({});
+
+// Get page action schema
+export const NotionGetPageActionParamsSchema = z.object({});
+export const NotionGetPageActionResponseSchema = z.object({});
+
+// Get data source action schema
+export const NotionGetDataSourceActionParamsSchema = z.object({ dataSourceId: z.string() });
+export const NotionGetDataSourceActionResponseSchema = z.object({});
+
+// Query data source action schema
+export const NotionQueryDataSourceActionParamsSchema = z.object({});
+export const NotionQueryDataSourceActionResponseSchema = z.object({});

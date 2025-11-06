@@ -7,5 +7,8 @@
 export const CONNECTOR_ID = '.notion';
 export const CONNECTOR_NAME = 'Notion';
 export enum SUB_ACTION {
-  SEARCH = 'search',
+  SEARCH = 'searchPageByTitle',
+  GET_PAGE = 'getPage',
+  GET_DATA_SOURCE = 'getDataSource',
+  QUERY_DATA_SOURCE = 'queryDataSource',
 }

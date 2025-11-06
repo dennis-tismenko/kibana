@@ -5,12 +5,24 @@
  * 2.0.
  */
 import type { z } from '@kbn/zod';
-import { SubActionConnectorType } from '@kbn/actions-plugin/server/sub_action_framework/types';
-import { NotionConfigSchema, NotionSecretsSchema, NotionSearchActionParamsSchema } from './schema';
+import type { SubActionConnectorType } from '@kbn/actions-plugin/server/sub_action_framework/types';
+import type {
+  NotionConfigSchema,
+  NotionSecretsSchema,
+  NotionSearchActionParamsSchema,
+  NotionGetDataSourceActionParamsSchema,
+  NotionGetPageActionParamsSchema,
+  NotionQueryDataSourceActionParamsSchema,
+} from './schema';
 
 export type NotionConfig = z.infer<typeof NotionConfigSchema>;
 export type NotionSecrets = z.infer<typeof NotionSecretsSchema>;
 
-export type NotionConnectorType = SubActionConnectorType<NotionConfig, NotionSecrets>
+export type NotionConnectorType = SubActionConnectorType<NotionConfig, NotionSecrets>;
 
 export type NotionSearchActionParams = z.infer<typeof NotionSearchActionParamsSchema>;
+export type NotionGetPageActionParams = z.infer<typeof NotionGetPageActionParamsSchema>;
+export type NotionGetDataSourceActionParams = z.infer<typeof NotionGetDataSourceActionParamsSchema>;
+export type NotionQueryDataSourceActionParams = z.infer<
+  typeof NotionQueryDataSourceActionParamsSchema
+>;

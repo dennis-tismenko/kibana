@@ -30,12 +30,45 @@ export class NotionConnector extends SubActionConnector<NotionConfig, NotionSecr
   private registerSubActions() {
     this.registerSubAction({
       name: SUB_ACTION.SEARCH,
-      method: 'searchPages',
+      method: 'searchPage',
+      schema: {},
+    });
+
+    this.registerSubAction({
+      name: SUB_ACTION.GET_PAGE,
+      method: 'getPage',
+      schema: {},
+    });
+
+    this.registerSubAction({
+      name: SUB_ACTION.GET_DATA_SOURCE,
+      method: 'getDataSource',
+      schema: {},
+    });
+
+    this.registerSubAction({
+      name: SUB_ACTION.QUERY_DATA_SOURCE,
+      method: 'queryDataSource',
       schema: {},
     });
   }
 
-  public async searchPages(params: unknown, connectorUsageCollector: ConnectorUsageCollector) {}
+  public async searchPage(params: unknown, connectorUsageCollector: ConnectorUsageCollector) {
+    // https://developers.notion.com/reference/post-search
+  }
+
+  public async getPage(params: unknown, connectorUsageCollector: ConnectorUsageCollector) {
+    // https://developers.notion.com/reference/retrieve-a-page
+  }
+
+  public async getDataSource(params: unknown, connectorUsageCollector: ConnectorUsageCollector) {
+    // https://developers.notion.com/reference/retrieve-a-data-source
+    // https://api.notion.com/v1/data_sources/
+  }
+
+  public async queryDataSource(params: unknown, connectorUsageCollector: ConnectorUsageCollector) {
+    // https://developers.notion.com/reference/query-a-data-source
+  }
 
   protected getResponseErrorMessage(error: AxiosError): string {
     return error.toString();
