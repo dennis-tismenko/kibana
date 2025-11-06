@@ -15,9 +15,16 @@ import { CONNECTOR_ID, CONNECTOR_NAME, SUB_ACTION } from '../../../common/notion
 import type {
   NotionConfig,
   NotionConnectorType,
+  NotionGetDataSourceActionParams,
+  NotionGetDataSourceActionResponse,
   NotionSecrets,
 } from '../../../common/notion/types';
-import { NotionConfigSchema, NotionSecretsSchema } from '../../../common/notion/schema';
+import {
+  NotionConfigSchema,
+  NotionGetDataSourceActionParamsSchema,
+  NotionGetDataSourceActionResponseSchema,
+  NotionSecretsSchema,
+} from '../../../common/notion/schema';
 import type { ExecutorParams } from '../../../common/xsoar/types';
 
 export class NotionConnector extends SubActionConnector<NotionConfig, NotionSecrets> {
@@ -43,7 +50,7 @@ export class NotionConnector extends SubActionConnector<NotionConfig, NotionSecr
     this.registerSubAction({
       name: SUB_ACTION.GET_DATA_SOURCE,
       method: 'getDataSource',
-      schema: {},
+      schema: NotionGetDataSourceActionParamsSchema,
     });
 
     this.registerSubAction({
@@ -61,9 +68,21 @@ export class NotionConnector extends SubActionConnector<NotionConfig, NotionSecr
     // https://developers.notion.com/reference/retrieve-a-page
   }
 
-  public async getDataSource(params: unknown, connectorUsageCollector: ConnectorUsageCollector) {
+  public async getDataSource(
+    { dataSourceId }: NotionGetDataSourceActionParams,
+    connectorUsageCollector: ConnectorUsageCollector
+  ): Promise<NotionGetDataSourceActionResponse> {
     // https://developers.notion.com/reference/retrieve-a-data-source
-    // https://api.notion.com/v1/data_sources/
+    // consider { unknowns: 'ignore' } and { unknowns: 'allow' }
+    const response = await this.request(
+      {
+        url: `https://api.notion.com/v1/data_sources/${dataSourceId}`,
+        method: 'get',
+        responseSchema: NotionGetDataSourceActionResponseSchema,
+      },
+      connectorUsageCollector
+    );
+    return response.data;
   }
 
   public async queryDataSource(params: unknown, connectorUsageCollector: ConnectorUsageCollector) {
