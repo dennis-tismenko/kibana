@@ -11,18 +11,20 @@ export const NotionConfigSchema = z.object({ sourceId: z.string().optional() }).
 export const NotionSecretsSchema = z.object({ token: z.string().optional() }).strict();
 
 // Search action schema
-export const NotionSearchActionParamsSchema = z.object({});
-export const NotionSearchActionResponseSchema = z.object({});
+export const NotionSearchActionParamsSchema = z.object({
+  query: z.string(),
+  startCursor: z.string().optional(),
+  pageSize: z.number().optional(),
+});
+export const NotionSearchActionResponseSchema = z.record(z.any());
 
 // Get page action schema
-export const NotionGetPageActionParamsSchema = z.object({});
-export const NotionGetPageActionResponseSchema = z.object({});
+export const NotionGetPageActionParamsSchema = z.object({ pageId: z.string() });
+export const NotionGetPageActionResponseSchema = z.record(z.any());
 
 // Get data source action schema
 export const NotionGetDataSourceActionParamsSchema = z.object({ dataSourceId: z.string() });
-
-// Permissive schema to see the full API response during testing
-export const NotionGetDataSourceActionResponseSchema = z.record(z.any());
+export const NotionGetDataSourceActionResponseSchema = z.record(z.any()); // Permissive schema to see the full API response during testing
 
 // Original restrictive schema - commented out for testing
 // export const NotionGetDataSourceActionResponseSchema = z.object({
@@ -74,5 +76,9 @@ export const NotionGetDataSourceActionResponseSchema = z.record(z.any());
 // });
 
 // Query data source action schema
-export const NotionQueryDataSourceActionParamsSchema = z.object({});
-export const NotionQueryDataSourceActionResponseSchema = z.object({});
+export const NotionQueryActionParamsSchema = z.object({
+  dataSourceId: z.string(),
+  startCursor: z.string().optional(),
+  pageSize: z.number().optional(),
+});
+export const NotionQueryActionResponseSchema = z.record(z.any());

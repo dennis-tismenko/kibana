@@ -17,12 +17,20 @@ import type {
   NotionConnectorType,
   NotionGetDataSourceActionParams,
   NotionGetDataSourceActionResponse,
+  NotionGetPageActionParams,
+  NotionQueryActionParams,
+  NotionSearchActionParams,
   NotionSecrets,
 } from '../../../common/notion/types';
 import {
   NotionConfigSchema,
   NotionGetDataSourceActionParamsSchema,
   NotionGetDataSourceActionResponseSchema,
+  NotionGetPageActionParamsSchema,
+  NotionGetPageActionResponseSchema,
+  NotionQueryActionResponseSchema,
+  NotionSearchActionParamsSchema,
+  NotionSearchActionResponseSchema,
   NotionSecretsSchema,
 } from '../../../common/notion/schema';
 import type { ExecutorParams } from '../../../common/xsoar/types';
@@ -38,13 +46,13 @@ export class NotionConnector extends SubActionConnector<NotionConfig, NotionSecr
     this.registerSubAction({
       name: SUB_ACTION.SEARCH,
       method: 'searchPage',
-      schema: {},
+      schema: NotionSearchActionParamsSchema,
     });
 
     this.registerSubAction({
       name: SUB_ACTION.GET_PAGE,
       method: 'getPage',
-      schema: {},
+      schema: NotionGetPageActionParamsSchema,
     });
 
     this.registerSubAction({
@@ -56,16 +64,58 @@ export class NotionConnector extends SubActionConnector<NotionConfig, NotionSecr
     this.registerSubAction({
       name: SUB_ACTION.QUERY_DATA_SOURCE,
       method: 'queryDataSource',
-      schema: {},
+      schema: NotionQueryActionResponseSchema,
     });
   }
 
-  public async searchPage(params: unknown, connectorUsageCollector: ConnectorUsageCollector) {
+  public async searchPage(
+    params: NotionSearchActionParams,
+    connectorUsageCollector: ConnectorUsageCollector
+  ) {
     // https://developers.notion.com/reference/post-search
+    const requestData = {
+      query: params.query,
+      filter: {
+        value: 'page',
+        property: 'object',
+      },
+      ...(params.startCursor && { start_cursor: params.startCursor }),
+      ...(params.pageSize && { page_size: params.pageSize }),
+    };
+    const response = await this.request(
+      {
+        url: `https://api.notion.com/v1/search`,
+        method: 'post',
+        responseSchema: NotionSearchActionResponseSchema,
+        headers: {
+          'Notion-Version': '2025-09-03',
+          Authorization: `Bearer ${this.secrets.token}`,
+        },
+        data: requestData,
+      },
+      connectorUsageCollector
+    );
+    return response.data;
   }
 
-  public async getPage(params: unknown, connectorUsageCollector: ConnectorUsageCollector) {
+  public async getPage(
+    { pageId }: NotionGetPageActionParams,
+    connectorUsageCollector: ConnectorUsageCollector
+  ) {
     // https://developers.notion.com/reference/retrieve-a-page
+    const response = await this.request(
+      {
+        url: `https://api.notion.com/v1/pages/${pageId}`,
+        method: 'get',
+        responseSchema: NotionGetPageActionResponseSchema,
+        headers: {
+          'Notion-Version': '2025-09-03',
+          Authorization: `Bearer ${this.secrets.token}`,
+        },
+      },
+      connectorUsageCollector
+    );
+    return response.data;
   }
 
   public async getDataSource(
@@ -89,8 +139,32 @@ export class NotionConnector extends SubActionConnector<NotionConfig, NotionSecr
     return response.data;
   }
 
-  public async queryDataSource(params: unknown, connectorUsageCollector: ConnectorUsageCollector) {
+  public async queryDataSource(
+    { dataSourceId }: NotionQueryActionParams,
+    connectorUsageCollector: ConnectorUsageCollector
+  ) {
     // https://developers.notion.com/reference/query-a-data-source
+    const response = await this.request(
+      {
+        url: `https://api.notion.com/v1/data_sources/${dataSourceId}/query`,
+        method: 'post',
+        responseSchema: NotionQueryActionResponseSchema,
+        headers: {
+          'Notion-Version': '2025-09-03',
+          Authorization: `Bearer ${this.secrets.token}`,
+        },
+        data: {
+          filter: {
+            property: 'Author Gender',
+            select: {
+              equals: 'Female',
+            },
+          },
+        },
+      },
+      connectorUsageCollector
+    );
+    return response.data;
   }
 
   protected getResponseErrorMessage(error: AxiosError): string {

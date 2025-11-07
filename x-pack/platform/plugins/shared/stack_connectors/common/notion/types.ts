@@ -12,7 +12,7 @@ import type {
   NotionSearchActionParamsSchema,
   NotionGetDataSourceActionParamsSchema,
   NotionGetPageActionParamsSchema,
-  NotionQueryDataSourceActionParamsSchema,
+  NotionQueryActionParamsSchema,
   NotionGetDataSourceActionResponseSchema,
 } from './schema';
 
@@ -22,11 +22,12 @@ export type NotionSecrets = z.infer<typeof NotionSecretsSchema>;
 export type NotionConnectorType = SubActionConnectorType<NotionConfig, NotionSecrets>;
 
 export type NotionSearchActionParams = z.infer<typeof NotionSearchActionParamsSchema>;
+
 export type NotionGetPageActionParams = z.infer<typeof NotionGetPageActionParamsSchema>;
+
 export type NotionGetDataSourceActionParams = z.infer<typeof NotionGetDataSourceActionParamsSchema>;
 export type NotionGetDataSourceActionResponse = z.infer<
   typeof NotionGetDataSourceActionResponseSchema
 >;
-export type NotionQueryDataSourceActionParams = z.infer<
-  typeof NotionQueryDataSourceActionParamsSchema
->;
+
+export type NotionQueryActionParams = z.infer<typeof NotionQueryActionParamsSchema>;
