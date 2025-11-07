@@ -7,8 +7,8 @@
 import { z } from '@kbn/zod';
 
 // Connector schema
-export const NotionConfigSchema = z.object({ sourceId: z.string() }).strict();
-export const NotionSecretsSchema = z.object({ token: z.string() }).strict();
+export const NotionConfigSchema = z.object({ sourceId: z.string().optional() }).strict();
+export const NotionSecretsSchema = z.object({ token: z.string().optional() }).strict();
 
 // Search action schema
 export const NotionSearchActionParamsSchema = z.object({});
