@@ -13,6 +13,7 @@ export const NotionSecretsSchema = z.object({ token: z.string().optional() }).st
 // Search action schema
 export const NotionSearchActionParamsSchema = z.object({
   query: z.string(),
+  queryObjectType: z.enum(['page', 'data_source']),
   startCursor: z.string().optional(),
   pageSize: z.number().optional(),
 });
@@ -76,8 +77,15 @@ export const NotionGetDataSourceActionResponseSchema = z.record(z.any()); // Per
 // });
 
 // Query data source action schema
+const NotionFilterSchema = z
+  .object({
+    property: z.string(),
+  })
+  .catchall(z.any());
+
 export const NotionQueryActionParamsSchema = z.object({
   dataSourceId: z.string(),
+  filter: NotionFilterSchema.optional(),
   startCursor: z.string().optional(),
   pageSize: z.number().optional(),
 });

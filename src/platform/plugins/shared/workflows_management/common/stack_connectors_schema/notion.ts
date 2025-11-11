@@ -11,17 +11,24 @@ import { z } from '@kbn/zod';
 // Notion connector parameter schemas for different sub-actions
 export const NotionSearchActionParamsSchema = z.object({
   query: z.string(),
+  queryObjectType: z.enum(['page', 'data_source']),
   startCursor: z.string().optional(),
   pageSize: z.number().optional(),
 });
 export const NotionGetPageActionParamsSchema = z.object({ pageId: z.string() });
 export const NotionGetDataSourceActionParamsSchema = z.object({ dataSourceId: z.string() });
+const NotionFilterSchema = z
+  .object({
+    property: z.string(),
+  })
+  .catchall(z.any());
+
 export const NotionQueryDataSourceActionParamsSchema = z.object({
   dataSourceId: z.string(),
+  filter: NotionFilterSchema.optional(),
   startCursor: z.string().optional(),
   pageSize: z.number().optional(),
 });
-
 // Notion connector response schema
 // export const NotionGetDataSourceActionResponseSchema = z.object({
 //   object: z.string(),

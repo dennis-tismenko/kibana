@@ -77,7 +77,7 @@ export class NotionConnector extends SubActionConnector<NotionConfig, NotionSecr
     const requestData = {
       query: params.query,
       filter: {
-        value: 'page',
+        value: params.queryObjectType,
         property: 'object',
       },
       ...(params.startCursor && { start_cursor: params.startCursor }),
@@ -141,27 +141,24 @@ export class NotionConnector extends SubActionConnector<NotionConfig, NotionSecr
   }
 
   public async queryDataSource(
-    { dataSourceId }: NotionQueryActionParams,
+    params: NotionQueryActionParams,
     connectorUsageCollector: ConnectorUsageCollector
   ) {
     // https://developers.notion.com/reference/query-a-data-source
+    let requestData = {};
+    if (params.filter) {
+      requestData = { filter: params.filter };
+    }
     const response = await this.request(
       {
-        url: `https://api.notion.com/v1/data_sources/${dataSourceId}/query`,
+        url: `https://api.notion.com/v1/data_sources/${params.dataSourceId}/query`,
         method: 'post',
         responseSchema: NotionQueryActionResponseSchema,
         headers: {
           'Notion-Version': '2025-09-03',
           Authorization: `Bearer ${this.secrets.token}`,
         },
-        data: {
-          filter: {
-            property: 'Author Gender',
-            select: {
-              equals: 'Female',
-            },
-          },
-        },
+        data: requestData,
       },
       connectorUsageCollector
     );
