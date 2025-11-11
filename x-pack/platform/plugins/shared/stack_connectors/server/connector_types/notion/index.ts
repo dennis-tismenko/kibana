@@ -28,6 +28,7 @@ import {
   NotionGetDataSourceActionResponseSchema,
   NotionGetPageActionParamsSchema,
   NotionGetPageActionResponseSchema,
+  NotionQueryActionParamsSchema,
   NotionQueryActionResponseSchema,
   NotionSearchActionParamsSchema,
   NotionSearchActionResponseSchema,
@@ -64,7 +65,7 @@ export class NotionConnector extends SubActionConnector<NotionConfig, NotionSecr
     this.registerSubAction({
       name: SUB_ACTION.QUERY_DATA_SOURCE,
       method: 'queryDataSource',
-      schema: NotionQueryActionResponseSchema,
+      schema: NotionQueryActionParamsSchema,
     });
   }
 
