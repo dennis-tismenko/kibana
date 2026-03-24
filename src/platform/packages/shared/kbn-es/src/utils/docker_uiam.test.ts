@@ -208,6 +208,12 @@ describe(`#runUiamContainer()`, () => {
             "--env",
             "uiam.cosmos.container.apikey=api-keys",
             "--env",
+            "uiam.cosmos.container.oauth_authorization_code=oauth-authorization-codes",
+            "--env",
+            "uiam.cosmos.container.oauth_client=oauth-clients",
+            "--env",
+            "uiam.cosmos.container.oauth_app_connection=oauth-app-connections",
+            "--env",
             "uiam.cosmos.container.token_invalidation=token-invalidation",
             "--env",
             "uiam.cosmos.container.users=users",
@@ -350,7 +356,7 @@ describe(`#runUiamContainer()`, () => {
     await expect(
       runUiamContainer(new ToolingLog(), cosmosDbContainer)
     ).rejects.toMatchInlineSnapshot(
-      `[Error: The "uiam-cosmosdb" container failed to start within the expected time. Last known status: running. Check the logs with [1mdocker logs -f uiam-cosmosdb[22m]`
+      `[Error: The "uiam-cosmosdb" container failed to start within the expected time. Last known status: running. Check the logs with docker logs -f uiam-cosmosdb]`
     );
 
     // Skip the first call to `docker run` as we checked it in the previous test.
@@ -364,7 +370,7 @@ describe(`#runUiamContainer()`, () => {
       .mockResolvedValue({ stdout: ` running ` });
 
     await expect(runUiamContainer(new ToolingLog(), uiamContainer)).rejects.toMatchInlineSnapshot(
-      `[Error: The "uiam" container failed to start within the expected time. Last known status: running. Check the logs with [1mdocker logs -f uiam[22m]`
+      `[Error: The "uiam" container failed to start within the expected time. Last known status: running. Check the logs with docker logs -f uiam]`
     );
 
     // Skip the first call to `docker run` as we checked it in the previous test.
@@ -392,7 +398,7 @@ describe('#initializeUiamContainers', () => {
     expect(mockUndiciAgent).toHaveBeenCalledTimes(1);
     expect(mockUndiciAgent).toHaveBeenCalledWith({ connect: { rejectUnauthorized: false } });
 
-    expect(mockUndiciFetch).toHaveBeenCalledTimes(4);
+    expect(mockUndiciFetch).toHaveBeenCalledTimes(7);
     expect(mockUndiciFetch.mock.calls).toMatchInlineSnapshot(`
       Array [
         Array [
@@ -463,6 +469,57 @@ describe('#initializeUiamContainers', () => {
             "method": "POST",
           },
         ],
+        Array [
+          "https://localhost:8081/dbs/uiam-db/colls",
+          Object {
+            "body": "{\\"id\\":\\"oauth-clients\\",\\"partitionKey\\":{\\"paths\\":[\\"/creator_id\\"],\\"kind\\":\\"Hash\\"}}",
+            "dispatcher": Object {
+              "dispatch": [MockFunction],
+              "name": "I'm the danger. I'm the one who knocks.",
+            },
+            "headers": Object {
+              "Authorization": "type%3Dmaster%26ver%3D1.0%26sig%3Djxrkp7JRqa5BKBelNeJSwradPgHYz2aTrP8%2Bce0zMQY%3D",
+              "Content-Type": "application/json",
+              "x-ms-date": "Sat, 01 Jan 2000 00:00:00 GMT",
+              "x-ms-version": "2018-12-31",
+            },
+            "method": "POST",
+          },
+        ],
+        Array [
+          "https://localhost:8081/dbs/uiam-db/colls",
+          Object {
+            "body": "{\\"id\\":\\"oauth-authorization-codes\\",\\"partitionKey\\":{\\"paths\\":[\\"/id\\"],\\"kind\\":\\"Hash\\"}}",
+            "dispatcher": Object {
+              "dispatch": [MockFunction],
+              "name": "I'm the danger. I'm the one who knocks.",
+            },
+            "headers": Object {
+              "Authorization": "type%3Dmaster%26ver%3D1.0%26sig%3Djxrkp7JRqa5BKBelNeJSwradPgHYz2aTrP8%2Bce0zMQY%3D",
+              "Content-Type": "application/json",
+              "x-ms-date": "Sat, 01 Jan 2000 00:00:00 GMT",
+              "x-ms-version": "2018-12-31",
+            },
+            "method": "POST",
+          },
+        ],
+        Array [
+          "https://localhost:8081/dbs/uiam-db/colls",
+          Object {
+            "body": "{\\"id\\":\\"oauth-app-connections\\",\\"partitionKey\\":{\\"paths\\":[\\"/client_id\\"],\\"kind\\":\\"Hash\\"}}",
+            "dispatcher": Object {
+              "dispatch": [MockFunction],
+              "name": "I'm the danger. I'm the one who knocks.",
+            },
+            "headers": Object {
+              "Authorization": "type%3Dmaster%26ver%3D1.0%26sig%3Djxrkp7JRqa5BKBelNeJSwradPgHYz2aTrP8%2Bce0zMQY%3D",
+              "Content-Type": "application/json",
+              "x-ms-date": "Sat, 01 Jan 2000 00:00:00 GMT",
+              "x-ms-version": "2018-12-31",
+            },
+            "method": "POST",
+          },
+        ],
       ]
     `);
   });
@@ -475,7 +532,7 @@ describe('#initializeUiamContainers', () => {
     expect(mockUndiciAgent).toHaveBeenCalledTimes(1);
     expect(mockUndiciAgent).toHaveBeenCalledWith({ connect: { rejectUnauthorized: false } });
 
-    expect(mockUndiciFetch).toHaveBeenCalledTimes(4);
+    expect(mockUndiciFetch).toHaveBeenCalledTimes(7);
   });
 
   test('fails if cannot create database', async () => {
