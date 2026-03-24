@@ -36,5 +36,14 @@ export type {
   ConvertUiamAPIKeysResponse,
 } from './api_keys';
 
+export type {
+  UiamOAuthType,
+  UiamOAuthClientResponse,
+  UiamOAuthClientLogo,
+  UiamOAuthConnectionResponse,
+  CreateUiamOAuthClientParams,
+  UpdateUiamOAuthClientParams,
+} from './oauth';
+
 export { HTTPAuthorizationHeader } from './http_authentication';
 export { isCreateRestAPIKeyParams } from './api_keys';

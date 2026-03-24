@@ -47,6 +47,12 @@ describe('UiamAPIKeys', () => {
       grantApiKey: jest.fn(),
       revokeApiKey: jest.fn(),
       convertApiKeys: jest.fn(),
+      createOAuthClient: jest.fn(),
+      listOAuthClients: jest.fn(),
+      updateOAuthClient: jest.fn(),
+      revokeOAuthClient: jest.fn(),
+      listOAuthConnections: jest.fn(),
+      revokeOAuthConnection: jest.fn(),
     };
 
     uiamApiKeys = new UiamAPIKeys({
