@@ -455,7 +455,11 @@ export const createNavigationTree = ({
               defaultMessage: 'Access',
             }),
             breadcrumbStatus: 'hidden',
-            children: [{ link: 'management:api_keys' }, { link: 'management:roles' }],
+            children: [
+              { link: 'management:api_keys' },
+              { link: 'management:roles' },
+              { link: 'management:application_connections' },
+            ],
           },
           {
             id: 'cloud_link_org_settings',

@@ -65,6 +65,24 @@ const apiKeysManagementFeature: ElasticsearchFeatureConfig = {
   ],
 };
 
+const applicationConnectionsManagementFeature: ElasticsearchFeatureConfig = {
+  id: 'application_connections',
+  management: {
+    security: ['application_connections'],
+  },
+  catalogue: ['security'],
+  privileges: [
+    {
+      requiredClusterPrivileges: ['manage_security'],
+      ui: ['save'],
+    },
+    {
+      requiredClusterPrivileges: ['read_security'],
+      ui: [],
+    },
+  ],
+};
+
 const roleMappingsManagementFeature: ElasticsearchFeatureConfig = {
   id: 'role_mappings',
   management: {
@@ -87,5 +105,6 @@ export const securityFeatures = [
   userManagementFeature,
   rolesManagementFeature,
   apiKeysManagementFeature,
+  applicationConnectionsManagementFeature,
   roleMappingsManagementFeature,
 ];

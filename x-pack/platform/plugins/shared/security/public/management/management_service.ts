@@ -17,6 +17,7 @@ import type {
 import type { AuthenticationServiceSetup } from '@kbn/security-plugin-types-public';
 
 import { apiKeysManagementApp } from './api_keys';
+import { applicationConnectionsManagementApp } from './application_connections';
 import { roleMappingsManagementApp } from './role_mappings';
 import { rolesManagementApp } from './roles';
 import { usersManagementApp } from './users';
@@ -73,6 +74,10 @@ export class ManagementService {
 
     this.securitySection.registerApp(apiKeysManagementApp.create({ authc, getStartServices }));
 
+    this.securitySection.registerApp(
+      applicationConnectionsManagementApp.create({ authc, getStartServices })
+    );
+
     if (this.roleMappingManagementEnabled) {
       this.securitySection.registerApp(roleMappingsManagementApp.create({ getStartServices }));
     }
@@ -84,6 +89,7 @@ export class ManagementService {
 
       const securityManagementAppsStatuses: Array<[ManagementApp, boolean]> = [
         [securitySection.getApp(apiKeysManagementApp.id)!, features.showLinks],
+        [securitySection.getApp(applicationConnectionsManagementApp.id)!, features.showLinks],
       ];
 
       if (this.userManagementEnabled) {
